@@ -1,6 +1,6 @@
 # Sitio D1EGX 10
 
-## Estructura de carpetas (así debe quedar en tu repositorio)
+## Estructura de carpetas
 
 ```
 D1EGX10/
