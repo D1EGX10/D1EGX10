@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de privacidad | D1EGX 10</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="page legal" id="contenido">
+    <p class="muted">Cargando...</p>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> D1EGX 10</p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script>
+    function esc(t) { const d = document.createElement("div"); d.textContent = t ?? ""; return d.innerHTML; }
+
+    const id = new URLSearchParams(location.search).get("id");
+    const j = JUEGOS.find(x => x.id === id);
+    const cont = document.getElementById("contenido");
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    if (!j) {
+      cont.innerHTML = '<a class="back" href="index.html#juegos">← Volver</a><h1>Juego no encontrado</h1>';
+    } else {
+      const p = j.privacidad;
+      document.title = "Privacidad - " + j.nombre;
+      const fecha = new Date().toLocaleDateString("es-MX", { year: "numeric", month: "long", day: "numeric" });
+
+      const seccionDatos = p.recopilaDatos
+        ? `<p>La aplicación puede recopilar información de forma automática a través de servicios de terceros:</p>
+           <ul>${p.servicios.map(s => `<li>${esc(s)}</li>`).join("")}</ul>
+           <p>Estos servicios tienen sus propias políticas de privacidad, que te recomendamos consultar.</p>`
+        : `<p><strong>${esc(j.nombre)}</strong> no recopila, almacena ni comparte información personal de los usuarios.</p>`;
+
+      cont.innerHTML = `
+        <a class="back" href="juego.html?id=${encodeURIComponent(j.id)}">← Volver a ${esc(j.nombre)}</a>
+        <h1>Política de privacidad</h1>
+        <p class="muted">${esc(j.nombre)} · Última actualización: ${esc(fecha)}</p>
+
+        <h2>1. Información que se recopila</h2>
+        ${seccionDatos}
+
+        <h2>2. Uso de la información</h2>
+        <p>${p.recopilaDatos
+          ? "La información se usa únicamente para el funcionamiento del juego, estadísticas y, en su caso, mostrar anuncios."
+          : "Al no recopilarse información personal, no existe ningún uso ni transferencia de datos."}</p>
+
+        <h2>3. Menores de edad</h2>
+        <p>No recopilamos intencionalmente datos personales de menores de 13 años. Si crees que un menor nos ha proporcionado datos, contáctanos para eliminarlos.</p>
+
+        <h2>4. Cambios a esta política</h2>
+        <p>Podemos actualizar esta política en cualquier momento. Los cambios se publicarán en esta misma página.</p>
+
+        <h2>5. Contacto</h2>
+        <p>Si tienes dudas, escríbenos a <a href="mailto:dmendieta2005@gmail.com">dmendieta2005@gmail.com</a>.</p>
+      `;
+    }
+  </script>
+</body>
+</html>
